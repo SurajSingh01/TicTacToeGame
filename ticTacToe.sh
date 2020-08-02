@@ -14,4 +14,11 @@ function reset()
 
 reset
 
+flip=$(( RANDOM % 2 ))
+if [ $flip -eq 1 ]
+then
+	echo "It is your turn"
+else
+	echo "It is computer turn"
+fi
 
