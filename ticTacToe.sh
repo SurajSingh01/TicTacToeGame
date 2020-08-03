@@ -12,7 +12,17 @@ function reset()
 	echo "--------------------"
 }
 
+function board()
+{
+	echo "  0 1 2"
+	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
+	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
+	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
+}
+
 reset
+echo "The board is :"
+board
 
 flip=$(( RANDOM % 2 ))
 if [ $flip -eq 1 ]
