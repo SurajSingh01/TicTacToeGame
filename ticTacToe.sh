@@ -2,9 +2,12 @@
 #!/bin/bash -x
 echo "Welcome to Tic Tac Toe Game"
 
+declare -a board
+# Initialization of variables
+count=0
 function reset()
 {
-	Array=(. . . . . . . . .)
+	board=(. . . . . . . . .)
 	player=1
 	gameStatus=1
 	echo "--------------------"
@@ -12,17 +15,22 @@ function reset()
 	echo "--------------------"
 }
 
-function board()
+function printBoard()
 {
-	echo "  0 1 2"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
+	for place in {1..9}
+	do
+		board[ (( count++ )) ]=$place
+	done
+	echo "${board[0]} | ${board[1]} | ${board[2]}"
+	echo "----------"
+	echo "${board[3]} | ${board[4]} | ${board[5]}"
+	echo "----------"
+	echo "${board[6]} | ${board[7]} | ${board[8]}"
 }
 
 reset
 echo "The board is :"
-board
+printBoard
 
 flip=$(( RANDOM % 2 ))
 if [ $flip -eq 1 ]
