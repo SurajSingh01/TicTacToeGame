@@ -1,10 +1,11 @@
 
 #!/bin/bash -x
 echo "Welcome to Tic Tac Toe Game"
+declare -a board
 
 function reset()
 {
-	Array=(. . . . . . . . .)
+	board=(. . . . . . . . .)
 	player=1
 	gameStatus=1
 	echo "--------------------"
@@ -12,54 +13,47 @@ function reset()
 	echo "--------------------"
 }
 
-function board()
+function printBoard()
 {
-	echo "  0 1 2"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
-	echo "0 ${Array[0]} ${Array[1]} ${Array[2]}"
+
+	echo "${board[0]} | ${board[1]} | ${board[2]}"
+	echo "---------"
+	echo "${board[3]} | ${board[4]} | ${board[5]}"
+	echo "---------"
+	echo "${board[6]} | ${board[7]} | ${board[8]}"
 }
 
-function winner()
-{
-	if [ ${Array[$1]} != "." ] && [ ${Array[$1]} == ${Array[$2]} ] && [ [ ${Array[$2]} == [ ${Array[$3]} ]
-	then
-		gameStatus=0
-	else
-		gameStatus=2
-	fi
-}
-
-function winningMatches()
-{
-	winner 0 1 2
-	winner 3 4 5
-	winner 6 7 8
-	winner 0 3 6
-	winner 1 4 7
-	winner 2 5 8
-	winner 0 4 8
-	winner 2 4 6
-}
 
 reset
 echo "The board is :"
-board
+printBoard
 
-flip=$(( RANDOM % 2 ))
-if [ $flip -eq 1 ]
-then
-	printf "It is your turn \nEnter your choice "
-	read choice
-	echo "Your choice is $choice"
-else
-	echo "It is computer turn"
-	option=$(( RANDOM % 2 ))
-	if [ $option -eq 1 ]
+function symbolAssigning()
+{
+	flip=$(( RANDOM % 2 ))
+	if [ $flip -eq 1 ]
 	then
-		echo "Computer choses X"
+		printf "It is your turn \nEnter your choice from ( O / X )"
+		read playerSymbol
+		if [ "$playerSymbol" == "O" ]
+		then
+			computerSymbol="X"
+		else
+			computerSymbol="O"
+		fi
 	else
-		echo "Computer choses O"
+		echo "It is computer turn"
+		option=$(( RANDOM % 2 ))
+		if [ $option -eq 1 ]
+		then
+			computerSymbol="X"
+			playerSymbol="O"
+		else
+			computerSymbol="O"
+			playerSymbol="X"
 	fi
 fi
-
+}
+symbolAssigning
+echo "Computer choses = $computerSymbol"
+echo "Player choses = $playerSymbol"
