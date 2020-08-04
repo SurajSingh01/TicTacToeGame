@@ -2,7 +2,11 @@
 #!/bin/bash -x
 echo "Welcome to Tic Tac Toe Game"
 declare -a board
+flag=1
+player=1
+system=0
 
+#Reset the board
 function reset()
 {
 	board=(. . . . . . . . .)
@@ -13,6 +17,7 @@ function reset()
 	echo "--------------------"
 }
 
+#print the board
 function printBoard()
 {
 
@@ -25,9 +30,10 @@ function printBoard()
 
 
 reset
-echo "The board is :"
-printBoard
+#echo "The board is :"
+#printBoard
 
+#Selecting from  'Ó' or 'X' by the player and computer
 function symbolAssigning()
 {
 	flip=$(( RANDOM % 2 ))
@@ -57,3 +63,21 @@ fi
 symbolAssigning
 echo "Computer choses = $computerSymbol"
 echo "Player choses = $playerSymbol"
+
+#Assign the symbol at required position
+while (( flag >= 1 ))
+do
+	if [ $flip -eq $player ]
+	then
+		printBoard
+		echo "please enter position (from 0 to 8) where u want to put symbol: "
+		read playerPosition
+		board[$playerPosition]=$playerSymbol
+		printBoard
+	else
+		computerPosition=$(( RANDOM % 9 + 1 ))
+		board[$computerPosition]=$computerSymbol
+		printBoard
+	fi
+	flag=0
+done
