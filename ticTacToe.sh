@@ -30,8 +30,6 @@ function printBoard()
 
 
 reset
-#echo "The board is :"
-#printBoard
 
 #Selecting from  'Ó' or 'X' by the player and computer
 function symbolAssigning()
@@ -64,20 +62,80 @@ symbolAssigning
 echo "Computer choses = $computerSymbol"
 echo "Player choses = $playerSymbol"
 
-#Assign the symbol at required position
-while (( flag >= 1 ))
-do
-	if [ $flip -eq $player ]
+function winningCheck()
+{
+	symbol=$1
+	winner=$2
+	winningPosition
+	if [[ ${board[$1] == $symbol && ${board[$2] == symbol && ${board[$3]== $symbol ]]
 	then
-		printBoard
-		echo "please enter position (from 0 to 8) where u want to put symbol: "
-		read playerPosition
-		board[$playerPosition]=$playerSymbol
-		printBoard
+		echo "-----------Winner is $winner -------------"
+		exit
+	fi
+
+#These are the winnig position
+function winningPosition ()
+{
+	winningCheck 0 1 2
+	winningCheck 3 4 5
+	winningCheck 6 7 8
+	winningCheck 0 3 6
+	winningCheck 1 4 7
+	winningCheck 2 5 8
+	winningCheck 0 4 8
+	winningCheck 2 4 5
+}
+
+function playerPlay()
+{
+	echo "---------Player Chance----------"
+	win="player"
+	printBoard
+	echo "Enter position where you want to put symbol: "
+	read -p playerPosition
+	if [ ${board[$playerPosition]} ="." ]
+	then
+		if [ $playerPosition >=0 -a $playerPosition <=8 ]
+		then
+			board[$playerPosition]=$playerSymbol
+			printBoard
+			winningCheck $playerSymbol $win
+	#		matchTie
+		else
+			echo "Invalid player position"
+		fi
 	else
-		computerPosition=$(( RANDOM % 9 + 1 ))
+		echo "Position already occupied"
+	fi
+}
+
+function computerPlay()
+{
+	echo "--------Compter play---------"
+	win2="Computer"
+	computerPosition=$(( RANDOM % 8 ))
+	if [[ ${board[$computerPosition]} ="." ]]
+	then
 		board[$computerPosition]=$computerSymbol
 		printBoard
+		winningCheck $systemSymbol $win2
+	#else
+	else
+		computerPlay
 	fi
-	flag=0
-done
+}
+
+gameStart() 
+{
+	if [$flip -eq $player]
+	then
+		playerPlay
+		echo "-------------------"
+		computerPlay
+	else
+		computerPlay
+		echo "-------------------"
+		playerPlay
+	fi
+}
+gameStart
