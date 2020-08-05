@@ -299,4 +299,3 @@ symbolAssigning
 echo "Computer choses = $computerSymbol"
 echo "Player choses = $playerSymbol"
 gameStart
-
