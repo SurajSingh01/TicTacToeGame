@@ -4,7 +4,7 @@ echo "Welcome to Tic Tac Toe Game"
 declare -a board
 flag=1
 player=1
-system=0
+computer=0
 
 #Reset the board
 function reset()
@@ -29,9 +29,8 @@ function printBoard()
 }
 
 
-reset
 
-#Selecting from  'Ó' or 'X' by the player and computer
+#Selecting from  'O' or 'X' by the player and computer
 function symbolAssigning()
 {
 	flip=$(( RANDOM % 2 ))
@@ -58,84 +57,104 @@ function symbolAssigning()
 	fi
 fi
 }
-symbolAssigning
-echo "Computer choses = $computerSymbol"
-echo "Player choses = $playerSymbol"
 
 function winningCheck()
 {
 	symbol=$1
 	winner=$2
-	winningPosition
-	if [[ ${board[$1] == $symbol && ${board[$2] == symbol && ${board[$3]== $symbol ]]
-	then
-		echo "-----------Winner is $winner -------------"
-		exit
-	fi
-
-#These are the winnig position
-function winningPosition ()
-{
-	winningCheck 0 1 2
-	winningCheck 3 4 5
-	winningCheck 6 7 8
-	winningCheck 0 3 6
-	winningCheck 1 4 7
-	winningCheck 2 5 8
-	winningCheck 0 4 8
-	winningCheck 2 4 5
+   winningPositionCheck 0 1 2
+   winningPositionCheck 3 4 5
+   winningPositionCheck 6 7 8
+   winningPositionCheck 0 3 6
+   winningPositionCheck 1 4 7
+   winningPositionCheck 2 5 8
+   winningPositionCheck 0 4 8
+   winningPositionCheck 2 4 5
 }
 
+function winningPositionCheck()
+{
+	if [[ ${board[$1]} == $symbol && ${board[$2]} == $symbol && ${board[$3]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+	fi
+}
+
+# check if match ties
+matchTie()
+{
+	for (( positionCount = 0; positionCount <=8; positionCount++ ))
+	do
+		if [ ${board[$count]}="." ]
+		then
+			echo "Match is not tie"
+			positionCount=9
+		elif (( $positionCount == 8))
+		then
+			echo "-------Match Tie-------"
+			exit
+		fi
+	done
+}
+
+# player choice and position function
 function playerPlay()
 {
 	echo "---------Player Chance----------"
 	win="player"
 	printBoard
-	echo "Enter position where you want to put symbol: "
-	read -p playerPosition
-	if [ ${board[$playerPosition]} ="." ]
+	read -p "Enter position from (1 to 8) where you want to put symbol: " playerPosition
+	if [ -z "${board[$playerPosition]}" ]
 	then
-		if [ $playerPosition >=0 -a $playerPosition <=8 ]
+		if (( $playerPosition >= 0 && $playerPosition <= 8 ))
 		then
 			board[$playerPosition]=$playerSymbol
 			printBoard
 			winningCheck $playerSymbol $win
-	#		matchTie
+			matchTie
 		else
 			echo "Invalid player position"
+			playerPlay
 		fi
 	else
 		echo "Position already occupied"
+		playerPlay
 	fi
 }
 
+# computer choice and position function
 function computerPlay()
 {
-	echo "--------Compter play---------"
+	echo ""---------Computer Turn-------"
 	win2="Computer"
 	computerPosition=$(( RANDOM % 8 ))
-	if [[ ${board[$computerPosition]} ="." ]]
+	if [ -z "${board[$computerPosition]}" ]
 	then
 		board[$computerPosition]=$computerSymbol
 		printBoard
-		winningCheck $systemSymbol $win2
-	#else
+		winnigCheck $computerSymbol $win2
+		matchTie
 	else
 		computerPlay
 	fi
 }
 
-gameStart() 
+gameStart()
 {
-	if [$flip -eq $player]
+	if [ $flip -eq $player ]
 	then
 		playerPlay
-		echo "-------------------"
+		echo "-------------"
 		computerPlay
 	else
 		computerPlay
-		echo "-------------------"
+		echo "-------------"
 		playerPlay
 	fi
 }
+
+#----------MAIN ------------
+symbolAssigning
+echo "Computer choses = $computerSymbol"
+echo "Player choses = $playerSymbol"
 gameStart
