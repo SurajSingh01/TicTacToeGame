@@ -170,7 +170,7 @@ systemPlay() {
 			if (( $cellNumber == 9 ))
 			then
 				echo "there is no cell for winning playing randon cell"
-				systemRandomPlay
+				opponentBlocking
 			fi
 		fi
 	done
