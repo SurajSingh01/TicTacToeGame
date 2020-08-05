@@ -102,7 +102,7 @@ matchTie()
 {
 	for (( positionCount = 0; positionCount <=8; positionCount++ ))
 	do
-		if [ ${board[$count]}="." ]
+		if [ -z "${board[$count]}" ]
 		then
 			echo "Match is not tie"
 			break
