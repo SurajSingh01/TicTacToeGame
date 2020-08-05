@@ -54,8 +54,8 @@ function symbolAssigning()
 		else
 			computerSymbol="O"
 			playerSymbol="X"
+		fi
 	fi
-fi
 }
 
 winnigCheck() {
@@ -100,9 +100,9 @@ winnigCheck() {
 # check if match ties
 matchTie()
 {
-	for (( positionCount = 0; positionCount <=8; positionCount++ ))
+	for (( positionCount = 0; positionCount <= 8; positionCount++ ))
 	do
-		if [ -z "${board[$count]}" ]
+		if [ -z "${board[$positioncount]}" ]
 		then
 			echo "Match is not tie"
 			break
@@ -156,26 +156,28 @@ function computerPlay()
 	fi
 }
 
-systemWinCheck() {
-	win="system"
+systemWinCheck()
+{
+	win="Computer"
 	board[$computerPosition]=$computerSymbol
 	winningCheck $computerSymbol $win
 }
 
-systemPlay() {
-	for (( cellNumber=1;cellNumber<10;cellNumber++ ))
+systemPlay()
+{
+	for (( cellNumber = 1; cellNumber < 9; cellNumber++ ))
 	do
 		if [ -z "${board[$cellNumber]}" ]
 		then
 			board[$cellNumber]="$computerSymbol"
-			echo "system win check"
+			echo "computer win check"
 			player="computer"
 			winnigCheck $computerSymbol $player
 			board[$cellNumber]=""
 
-			if (( $cellNumber == 9 ))
+			if (( $cellNumber == 8 ))
 			then
-				echo "there is no cell for winning playing randon cell"
+				echo "there is no cell for winning playing random cell"
 				computerPlay
 			fi
 		fi
