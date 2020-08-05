@@ -156,12 +156,6 @@ function computerPlay()
 	fi
 }
 
-systemWinCheck() {
-	win="system"
-	board[systemPosition]=$systemSymbol
-	winningCheck $SystemSymbol $win
-}
-
 systemPlay() {
 	for (( cellNumber=1;cellNumber<10;cellNumber++ ))
 	do
@@ -180,8 +174,69 @@ systemPlay() {
 			fi
 		fi
 	done
-
 }
+
+#//function for blacking opponent place where he can win the game
+opponentBlocking() {
+	echo "===============opponent Blocking====================="
+	for (( cellBlock = 1; cellBlock < 10; cellBlock++ ))
+	do
+		if [ -z "${board[$cellBlock]}" ]
+		then
+			board[$cellBlock]="$playerSymbol"
+			echo "checking for player winning condition if nay then blocking"
+			winningCheckForOpp "$playerSymbol"
+			board[$cellBlock]=""
+
+			if [ $cellBlock -eq 9 ]
+			then
+				echo "=========Did not find any cell for blacking======="
+
+				computerPlay
+			fi
+		fi
+	done
+}
+
+#//fuction to analysing player winning cells for blocking
+winningCheckForOpp() {
+
+        symbol2=$1
+        if [[ ${board[1]} == $symbol2 && ${board[2]} == $symbol2 && ${board[3]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+		cellBlock=10
+	elif [[ ${board[4]} == $symbol2 && ${board[5]} == $symbol2 && ${board[6]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[7]} == $symbol2 && ${board[8]} == $symbol2 && ${board[9]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[1]} == $symbol2 && ${board[4]} == $symbol2 && ${board[7]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[2]} == $symbol2 && ${board[5]} == $symbol2 && ${board[8]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[3]} == $symbol2 && ${board[6]} == $symbol2 && ${board[9]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[1]} == $symbol2 && ${board[5]} == $symbol2 && ${board[9]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	elif [[ ${board[3]} == $symbol2 && ${board[5]} == $symbol2 && ${board[7]} == $symbol2 ]]
+        then
+                board[$cellBlock]="$systemSymbol"
+                cellBlock=10
+	fi
+}
+
 gameStart()
 {
 	if [ $flip -eq $player ]
