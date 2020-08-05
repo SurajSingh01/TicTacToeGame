@@ -58,27 +58,44 @@ function symbolAssigning()
 fi
 }
 
-function winningCheck()
-{
-	symbol=$1
-	winner=$2
-   winningPositionCheck 0 1 2
-   winningPositionCheck 3 4 5
-   winningPositionCheck 6 7 8
-   winningPositionCheck 0 3 6
-   winningPositionCheck 1 4 7
-   winningPositionCheck 2 5 8
-   winningPositionCheck 0 4 8
-   winningPositionCheck 2 4 5
-}
-
-function winningPositionCheck()
-{
-	if [[ ${board[$1]} == $symbol && ${board[$2]} == $symbol && ${board[$3]} == $symbol ]]
+winnigCheck() {
+		symbol=$1
+		winner=$2
+		if [[ ${board[0]} == $symbol && ${board[1]} == $symbol && ${board[2]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
-	fi
+			exit
+		elif [[ ${board[3]} == $symbol && ${board[4]} == $symbol && ${board[5]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[6]} == $symbol && ${board[7]} == $symbol && ${board[8]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[0]} == $symbol && ${board[3]} == $symbol && ${board[6]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[1]} == $symbol && ${board[4]} == $symbol && ${board[7]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[2]} == $symbol && ${board[5]} == $symbol && ${board[8]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[0]} == $symbol && ${board[4]} == $symbol && ${board[8]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		elif [[ ${board[2]} == $symbol && ${board[4]} == $symbol && ${board[6]} == $symbol ]]
+		then
+			echo "==================$winner is winner================="
+			exit
+		fi
 }
+
 
 # check if match ties
 matchTie()
@@ -88,7 +105,7 @@ matchTie()
 		if [ ${board[$count]}="." ]
 		then
 			echo "Match is not tie"
-			positionCount=9
+			break
 		elif (( $positionCount == 8))
 		then
 			echo "-------Match Tie-------"
