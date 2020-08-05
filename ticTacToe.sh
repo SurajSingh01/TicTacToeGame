@@ -158,8 +158,8 @@ function computerPlay()
 
 systemWinCheck() {
 	win="system"
-	board[systemPosition]=$systemSymbol
-	winningCheck $SystemSymbol $win
+	board[$computerPosition]=$computerSymbol
+	winningCheck $computerSymbol $win
 }
 
 systemPlay() {
@@ -167,16 +167,16 @@ systemPlay() {
 	do
 		if [ -z "${board[$cellNumber]}" ]
 		then
-			board[$cellNumber]="$systemSymbol"
+			board[$cellNumber]="$computerSymbol"
 			echo "system win check"
-			player="system"
-			winnigCheck $systemSymbol $player
+			player="computer"
+			winnigCheck $computerSymbol $player
 			board[$cellNumber]=""
 
 			if (( $cellNumber == 9 ))
 			then
 				echo "there is no cell for winning playing randon cell"
-				systemRandomPlay
+				computerPlay
 			fi
 		fi
 	done
