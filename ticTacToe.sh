@@ -186,24 +186,21 @@ systemPlay() {
 
 # function for blacking opponent place where he can win the game
 opponentBlocking() {
+	flag=1
 	echo "===============opponent Blocking====================="
 	for (( cellBlock = 1; cellBlock < 9; cellBlock++ ))
 	do
 		if [ -z "${board[$cellBlock]}" ]
 		then
 			board[$cellBlock]="$playerSymbol"
-			echo "checking for player winning condition if nay then blocking"
 			winningCheckForOpp "$playerSymbol"
 			board[$cellBlock]=""
-
-			if [ $cellBlock -eq 8 ]
-			then
-				echo "=========Did not find any cell for blacking======="
-
-				cornerApproach
-			fi
 		fi
 	done
+	if [ $flag -eq 1 ]
+	then
+		cornerApproach
+	fi
 }
 
 # function for corner Approach for system
@@ -240,43 +237,42 @@ centerApproach()
 	fi
 }
 
+exitingFromOppBlockingLoop()
+{
+	board[$cellBlock]="computerSymbol"
+	flag=2
+	cellBlock=9
+}
+
 
 #//fuction to analysing player winning cells for blocking
 winningCheckForOpp() {
 
-        symbol2=$1
-        if [[ ${board[1]} == $symbol2 && ${board[2]} == $symbol2 && ${board[3]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-		cellBlock=10
+   symbol2=$1
+   if [[ ${board[1]} == $symbol2 && ${board[2]} == $symbol2 && ${board[3]} == $symbol2 ]]
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[4]} == $symbol2 && ${board[5]} == $symbol2 && ${board[6]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[7]} == $symbol2 && ${board[8]} == $symbol2 && ${board[9]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[1]} == $symbol2 && ${board[4]} == $symbol2 && ${board[7]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[2]} == $symbol2 && ${board[5]} == $symbol2 && ${board[8]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[3]} == $symbol2 && ${board[6]} == $symbol2 && ${board[9]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[1]} == $symbol2 && ${board[5]} == $symbol2 && ${board[9]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	elif [[ ${board[3]} == $symbol2 && ${board[5]} == $symbol2 && ${board[7]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
-                cellBlock=10
+   then
+		exitingFromOppBlockingLoop
 	fi
 }
 
