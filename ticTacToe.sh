@@ -223,10 +223,22 @@ cornerApproach()
    then
       board[8]="$computerSymbol"
 	else
-		computerPlay
+		echo "-------NO corner block found-----"
+		centerApproach
 	fi
 }
 
+centerApproach()
+{
+	echo "--------Center blocking--------"
+	if [ -z "{$board[5]}"
+	then
+		board[4]="computerPlay"
+	else
+		echo "---------No center to block--------"
+		computerPlay
+	fi
+}
 
 
 #//fuction to analysing player winning cells for blocking
