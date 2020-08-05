@@ -156,15 +156,41 @@ function computerPlay()
 	fi
 }
 
+systemWinCheck() {
+	win="system"
+	board[systemPosition]=$systemSymbol
+	winningCheck $SystemSymbol $win
+}
+
+systemPlay() {
+	for (( cellNumber=1;cellNumber<10;cellNumber++ ))
+	do
+		if [ -z "${board[$cellNumber]}" ]
+		then
+			board[$cellNumber]="$systemSymbol"
+			echo "system win check"
+			player="system"
+			winnigCheck $systemSymbol $player
+			board[$cellNumber]=""
+
+			if (( $cellNumber == 9 ))
+			then
+				echo "there is no cell for winning playing randon cell"
+				systemRandomPlay
+			fi
+		fi
+	done
+
+}
 gameStart()
 {
 	if [ $flip -eq $player ]
 	then
 		playerPlay
 		echo "-------------"
-		computerPlay
+		systemPlay
 	else
-		computerPlay
+		systemPlay
 		echo "-------------"
 		playerPlay
 	fi
