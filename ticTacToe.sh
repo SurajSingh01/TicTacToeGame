@@ -64,34 +64,42 @@ winnigCheck() {
 		if [[ ${board[0]} == $symbol && ${board[1]} == $symbol && ${board[2]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[3]} == $symbol && ${board[4]} == $symbol && ${board[5]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[6]} == $symbol && ${board[7]} == $symbol && ${board[8]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[0]} == $symbol && ${board[3]} == $symbol && ${board[6]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[1]} == $symbol && ${board[4]} == $symbol && ${board[7]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[2]} == $symbol && ${board[5]} == $symbol && ${board[8]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[0]} == $symbol && ${board[4]} == $symbol && ${board[8]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		elif [[ ${board[2]} == $symbol && ${board[4]} == $symbol && ${board[6]} == $symbol ]]
 		then
 			echo "==================$winner is winner================="
+			printBoard
 			exit
 		fi
 }
@@ -102,7 +110,7 @@ matchTie()
 {
 	for (( positionCount = 0; positionCount <=8; positionCount++ ))
 	do
-		if [ -z "${board[$count]}" ]
+		if [ -z "${board[$positionCount]}" ]
 		then
 			echo "Match is not tie"
 			break
@@ -157,7 +165,7 @@ function computerPlay()
 }
 
 systemPlay() {
-	for (( cellNumber=1;cellNumber<10;cellNumber++ ))
+	for (( cellNumber = 1; cellNumber < 10; cellNumber++ ))
 	do
 		if [ -z "${board[$cellNumber]}" ]
 		then
@@ -167,7 +175,7 @@ systemPlay() {
 			winnigCheck $computerSymbol $player
 			board[$cellNumber]=""
 
-			if (( $cellNumber == 9 ))
+			if (( $cellNumber == 8 ))
 			then
 				echo "there is no cell for winning playing randon cell"
 				opponentBlocking
@@ -179,7 +187,7 @@ systemPlay() {
 # function for blacking opponent place where he can win the game
 opponentBlocking() {
 	echo "===============opponent Blocking====================="
-	for (( cellBlock = 1; cellBlock < 10; cellBlock++ ))
+	for (( cellBlock = 1; cellBlock < 9; cellBlock++ ))
 	do
 		if [ -z "${board[$cellBlock]}" ]
 		then
@@ -188,17 +196,40 @@ opponentBlocking() {
 			winningCheckForOpp "$playerSymbol"
 			board[$cellBlock]=""
 
-			if [ $cellBlock -eq 9 ]
+			if [ $cellBlock -eq 8 ]
 			then
 				echo "=========Did not find any cell for blacking======="
 
-				computerPlay
+				cornerApproach
 			fi
 		fi
 	done
 }
 
-# fuction to analysing player winning cells for blocking
+# function for corner Approach for system
+cornerApproach()
+{
+	echo "-------corner blocking---------"
+	if [ -z "${board[0]}" ]
+	then
+		board[0]="$computerSymbol"
+	elif [ -z "${board[2]}" ]
+	then
+		board[2]="$computerSymbol"
+	elif [ -z "${board[6]}" ]
+   then
+      board[6]="$computerSymbol"
+	elif [ -z "${board[8]}" ]
+   then
+      board[8]="$computerSymbol"
+	else
+		computerPlay
+	fi
+}
+
+
+
+#//fuction to analysing player winning cells for blocking
 winningCheckForOpp() {
 
         symbol2=$1
