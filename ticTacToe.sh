@@ -58,7 +58,7 @@ function symbolAssigning()
 	fi
 }
 
-winnigCheck() {
+winningCheck() {
 		symbol=$1
 		winner=$2
 		if [[ ${board[0]} == $symbol && ${board[1]} == $symbol && ${board[2]} == $symbol ]]
@@ -142,37 +142,29 @@ function playerPlay()
 # computer choice and position function
 function computerPlay()
 {
-	echo ""---------Computer Turn-------"
+	echo "---------Computer Turn-------"
 	win2="Computer"
 	computerPosition=$(( RANDOM % 8 ))
 	if [ -z "${board[$computerPosition]}" ]
 	then
 		board[$computerPosition]=$computerSymbol
 		printBoard
-		winnigCheck $computerSymbol $win2
+		winningCheck $computerSymbol $win2
 		matchTie
 	else
 		computerPlay
 	fi
 }
 
-systemWinCheck()
-{
-	win="Computer"
-	board[$computerPosition]=$computerSymbol
-	winningCheck $computerSymbol $win
-}
-
 systemPlay()
 {
-	for (( cellNumber = 1; cellNumber < 9; cellNumber++ ))
+	for (( cellNumber = 0; cellNumber < 9; cellNumber++ ))
 	do
 		if [ -z "${board[$cellNumber]}" ]
 		then
 			board[$cellNumber]="$computerSymbol"
-			echo "computer win check"
 			player="computer"
-			winnigCheck $computerSymbol $player
+			winningCheck $computerSymbol $player
 			board[$cellNumber]=""
 
 			if (( $cellNumber == 8 ))
@@ -188,13 +180,19 @@ gameStart()
 {
 	if [ $flip -eq $player ]
 	then
-		playerPlay
-		echo "-------------"
-		systemPlay
+		while [ $flag -eq 1 ]
+		do
+			playerPlay
+			echo "-------------"
+			systemPlay
+		done
 	else
-		systemPlay
-		echo "-------------"
-		playerPlay
+		while [ $flag -eq 1 ]
+		do
+			systemPlay
+			echo "-------------"
+			playerPlay
+		done
 	fi
 }
 
