@@ -58,7 +58,7 @@ function symbolAssigning()
 fi
 }
 
-winnigCheck() {
+winningCheck() {
 		symbol=$1
 		winner=$2
 		if [[ ${board[0]} == $symbol && ${board[1]} == $symbol && ${board[2]} == $symbol ]]
@@ -142,14 +142,14 @@ function playerPlay()
 # computer choice and position function
 function computerPlay()
 {
-	echo ""---------Computer Turn-------"
+	echo "---------Computer Turn-------"
 	win2="Computer"
 	computerPosition=$(( RANDOM % 8 ))
 	if [ -z "${board[$computerPosition]}" ]
 	then
 		board[$computerPosition]=$computerSymbol
 		printBoard
-		winnigCheck $computerSymbol $win2
+		winningCheck $computerSymbol $win2
 		matchTie
 	else
 		computerPlay
@@ -157,14 +157,13 @@ function computerPlay()
 }
 # System Play like a human by checking opponent places
 systemPlay() {
-	for (( cellNumber=1;cellNumber<10;cellNumber++ ))
+	for (( cellNumber = 0; cellNumber < 9 ;cellNumber++ ))
 	do
 		if [ -z "${board[$cellNumber]}" ]
 		then
 			board[$cellNumber]="$computerSymbol"
-			echo "computer win check"
 			player="computer"
-			winnigCheck $computerSymbol $player
+			winningCheck $computerSymbol $player
 			board[$cellNumber]=""
 
 			if (( $cellNumber == 8 ))
@@ -184,7 +183,6 @@ opponentBlocking() {
 		if [ -z "${board[$cellBlock]}" ]
 		then
 			board[$cellBlock]="$playerSymbol"
-			echo "checking for player winning condition if nay then blocking"
 			winningCheckForOpp "$playerSymbol"
 			board[$cellBlock]=""
 
@@ -204,29 +202,28 @@ winningCheckForOpp() {
    symbol2=$1
    if [[ ${board[0]} == $symbol2 && ${board[1]} == $symbol2 && ${board[2]} == $symbol2 ]]
    then
-			board[$cellBlock]="$computerSymbol"
-			cellBlock=10
+		board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[3]} == $symbol2 && ${board[4]} == $symbol2 && ${board[5]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+	then
+		board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[6]} == $symbol2 && ${board[7]} == $symbol2 && ${board[8]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[0]} == $symbol2 && ${board[3]} == $symbol2 && ${board[6]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[1]} == $symbol2 && ${board[4]} == $symbol2 && ${board[7]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[2]} == $symbol2 && ${board[5]} == $symbol2 && ${board[8]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[0]} == $symbol2 && ${board[4]} == $symbol2 && ${board[8]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	elif [[ ${board[2]} == $symbol2 && ${board[4]} == $symbol2 && ${board[6]} == $symbol2 ]]
-        then
-                board[$cellBlock]="$computerSymbol"
+   then
+      board[$cellBlock]="$computerSymbol"
 	fi
 }
 
@@ -234,13 +231,19 @@ gameStart()
 {
 	if [ $flip -eq $player ]
 	then
-		playerPlay
-		echo "-------------"
-		systemPlay
+		while [ $flag -eq 1 ]
+		do
+			playerPlay
+			echo "-------------"
+			systemPlay
+		done
 	else
-		systemPlay
-		echo "-------------"
-		playerPlay
+		while [ $flag -eq 1 ]
+		do
+			systemPlay
+			echo "-------------"
+			playerPlay
+		done
 	fi
 }
 
